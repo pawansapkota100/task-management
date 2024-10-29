@@ -4,8 +4,7 @@ from rest_framework import status
 from rest_framework.decorators import action
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
-
-# Create your views here.
+from utils.permission import IsTaskOwner
 
 from rest_framework import viewsets
 from .models import Task
@@ -18,10 +17,14 @@ class TaskViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend,filters.SearchFilter]
     filterset_fields=['priority', 'status']
     search_fields=['name']
+    permission_classes= [IsTaskOwner]
 
     def get_queryset(self):
-        return Task.objects.filter(created_by=self.request.user)
-    
+        
+        if self.request.method == 'GET':
+            return Task.objects.filter(created_by=self.request.user)
+        return Task.objects.all()
+        
     def perform_destroy(self, instance):
         self.check_object_permissions(self.request, instance)
         instance.delete()
