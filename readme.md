@@ -77,9 +77,9 @@ docker exec -it task_management-web-1 python manage.py test
 ### Filter Tasks by Priority and Status
 
 - **GET** request to filter tasks based on priority and status:
-  http://127.0.0.1:8000/tasks/?status=I&priority=H
+  http://127.0.0.1:8000/tasks/?status=I&&priority=H
 
 ### Search for a Task by Name
 
 - **GET** request to search for a task by name:
-  http://127.0.0.1:8000/tasks/?search=testing%20task
+  http://127.0.0.1:8000/tasks/?search=testing
